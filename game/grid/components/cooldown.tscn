@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://ccdfju36rv47k"]
+
+[ext_resource type="Script" uid="uid://c4250jxgxd6qa" path="res://game/grid/components/cooldown.gd" id="1_1bkhs"]
+[ext_resource type="Texture2D" uid="uid://brkg3k7j1w745" path="res://sprites.png" id="2_y1pox"]
+
+[node name="Cooldown" type="Node2D" unique_id=895928947]
+script = ExtResource("1_1bkhs")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1786274100]
+unique_name_in_owner = true
+texture = ExtResource("2_y1pox")
+region_enabled = true
+region_rect = Rect2(64, 0, 32, 32)

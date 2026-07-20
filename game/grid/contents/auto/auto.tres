@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="GridItemContentResource" format=3 uid="uid://tsp3qmtuv66i"]
+
+[ext_resource type="PackedScene" uid="uid://dxc7424vvo5q2" path="res://game/grid/contents/auto/auto.tscn" id="1_7n2xg"]
+[ext_resource type="Script" uid="uid://de6rtmukhb0bj" path="res://game/grid/grid_item_content_resource.gd" id="1_dfgwf"]
+
+[resource]
+script = ExtResource("1_dfgwf")
+name = "auto"
+scene = ExtResource("1_7n2xg")
+metadata/_custom_type_script = "uid://de6rtmukhb0bj"

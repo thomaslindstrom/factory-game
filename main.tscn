@@ -1,0 +1,169 @@
+[gd_scene format=3 uid="uid://b7lv0x43srub1"]
+
+[ext_resource type="Script" uid="uid://d1bgwp6f35d2y" path="res://main.gd" id="1_1bvp3"]
+[ext_resource type="Texture2D" uid="uid://brkg3k7j1w745" path="res://sprites.png" id="1_ig7tw"]
+[ext_resource type="Script" uid="uid://b4l46f5su5i4o" path="res://game_viewport_camera.gd" id="2_lquwl"]
+[ext_resource type="PackedScene" uid="uid://djtwb08a2jk2h" path="res://modules/font/ui_text.tscn" id="3_h2yge"]
+[ext_resource type="Script" uid="uid://b4cf5kebl764s" path="res://game/grid/grid.gd" id="4_1bvp3"]
+[ext_resource type="Script" uid="uid://eq2yr8ietoxx" path="res://ui_viewport_camera.gd" id="5_7mycd"]
+[ext_resource type="Script" uid="uid://ci18myf5wo6k" path="res://game/grid/grid_debugger.gd" id="5_272bh"]
+[ext_resource type="Shader" uid="uid://dabtrrtqndsd2" path="res://game/grid/grid.gdshader" id="5_efxa6"]
+[ext_resource type="Script" uid="uid://boovmr37gcaus" path="res://game/grid/grid_item_resource.gd" id="6_kek77"]
+[ext_resource type="Resource" uid="uid://cb05nvk3m0jt0" path="res://game/grid/contents/coin/coin.tres" id="7_4c57u"]
+[ext_resource type="Resource" uid="uid://tsp3qmtuv66i" path="res://game/grid/contents/auto/auto.tres" id="9_dg77c"]
+[ext_resource type="Script" uid="uid://d0i5tuphwd1tr" path="res://ui/score.gd" id="10_4c57u"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1bvp3"]
+atlas = ExtResource("1_ig7tw")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="Resource" id="Resource_dg77c"]
+script = ExtResource("6_kek77")
+coordinates = Vector2i(6, 3)
+content = ExtResource("7_4c57u")
+metadata/_custom_type_script = "uid://boovmr37gcaus"
+
+[sub_resource type="Resource" id="Resource_o24m2"]
+script = ExtResource("6_kek77")
+coordinates = Vector2i(5, 3)
+content = ExtResource("9_dg77c")
+metadata/_custom_type_script = "uid://boovmr37gcaus"
+
+[sub_resource type="Resource" id="Resource_etm5p"]
+script = ExtResource("6_kek77")
+coordinates = Vector2i(5, 2)
+content = ExtResource("7_4c57u")
+metadata/_custom_type_script = "uid://boovmr37gcaus"
+
+[sub_resource type="Resource" id="Resource_7xrbg"]
+script = ExtResource("6_kek77")
+coordinates = Vector2i(8, 3)
+content = ExtResource("7_4c57u")
+metadata/_custom_type_script = "uid://boovmr37gcaus"
+
+[sub_resource type="Resource" id="Resource_ycdy4"]
+script = ExtResource("6_kek77")
+coordinates = Vector2i(5, 4)
+content = ExtResource("7_4c57u")
+metadata/_custom_type_script = "uid://boovmr37gcaus"
+
+[sub_resource type="Resource" id="Resource_w48qg"]
+script = ExtResource("6_kek77")
+coordinates = Vector2i(4, 3)
+content = ExtResource("7_4c57u")
+metadata/_custom_type_script = "uid://boovmr37gcaus"
+
+[sub_resource type="Resource" id="Resource_vivmo"]
+script = ExtResource("6_kek77")
+coordinates = Vector2i(4, 2)
+content = ExtResource("7_4c57u")
+metadata/_custom_type_script = "uid://boovmr37gcaus"
+
+[node name="Main" type="Control" unique_id=30251666]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("1_1bvp3")
+
+[node name="Background" type="ColorRect" parent="." unique_id=1175452048]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.021210132, 0.027269121, 0.051798686, 1)
+
+[node name="GameViewportContainer" type="SubViewportContainer" parent="." unique_id=1987820623]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+stretch = true
+
+[node name="GameViewport" type="SubViewport" parent="GameViewportContainer" unique_id=2141214922]
+disable_3d = true
+transparent_bg = true
+handle_input_locally = false
+snap_2d_transforms_to_pixel = true
+snap_2d_vertices_to_pixel = true
+canvas_item_default_texture_filter = 0
+physics_object_picking = true
+positional_shadow_atlas_size = 0
+positional_shadow_atlas_16_bits = false
+positional_shadow_atlas_quad_0 = 0
+positional_shadow_atlas_quad_1 = 0
+positional_shadow_atlas_quad_2 = 0
+positional_shadow_atlas_quad_3 = 0
+size = Vector2i(1280, 720)
+render_target_update_mode = 4
+
+[node name="Camera2D" type="Camera2D" parent="GameViewportContainer/GameViewport" unique_id=474031424]
+zoom = Vector2(4, 4)
+position_smoothing_enabled = true
+script = ExtResource("2_lquwl")
+pan_speed = 500.0
+
+[node name="Grid" type="Node2D" parent="GameViewportContainer/GameViewport" unique_id=810262040]
+position = Vector2(160, 90)
+script = ExtResource("4_1bvp3")
+grid_size = Vector2i(13, 7)
+texture = SubResource("AtlasTexture_1bvp3")
+shader = ExtResource("5_efxa6")
+fade_radius = 4.25
+
+[node name="GridDebugger" type="Node" parent="GameViewportContainer/GameViewport" unique_id=1304857817 node_paths=PackedStringArray("grid")]
+script = ExtResource("5_272bh")
+grid = NodePath("../Grid")
+items = Array[ExtResource("6_kek77")]([SubResource("Resource_dg77c"), SubResource("Resource_o24m2"), SubResource("Resource_etm5p"), SubResource("Resource_7xrbg"), SubResource("Resource_ycdy4"), SubResource("Resource_w48qg"), SubResource("Resource_vivmo")])
+
+[node name="UiViewportContainer" type="SubViewportContainer" parent="." unique_id=1306108882]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+stretch = true
+
+[node name="UiViewport" type="SubViewport" parent="UiViewportContainer" unique_id=1188251435]
+disable_3d = true
+transparent_bg = true
+handle_input_locally = false
+snap_2d_transforms_to_pixel = true
+snap_2d_vertices_to_pixel = true
+canvas_item_default_texture_filter = 0
+positional_shadow_atlas_size = 0
+positional_shadow_atlas_16_bits = false
+positional_shadow_atlas_quad_0 = 0
+positional_shadow_atlas_quad_1 = 0
+positional_shadow_atlas_quad_2 = 0
+positional_shadow_atlas_quad_3 = 0
+size = Vector2i(1280, 720)
+render_target_update_mode = 4
+
+[node name="Camera2D" type="Camera2D" parent="UiViewportContainer/UiViewport" unique_id=1440604307]
+anchor_mode = 0
+zoom = Vector2(4, 4)
+script = ExtResource("5_7mycd")
+
+[node name="MarginContainer" type="MarginContainer" parent="UiViewportContainer/UiViewport" unique_id=523376642]
+offset_right = 10.0
+offset_bottom = 13.0
+theme_override_constants/margin_left = 6
+theme_override_constants/margin_top = 4
+
+[node name="UiText" parent="UiViewportContainer/UiViewport/MarginContainer" unique_id=1736015980 instance=ExtResource("3_h2yge")]
+layout_mode = 2
+script = ExtResource("10_4c57u")

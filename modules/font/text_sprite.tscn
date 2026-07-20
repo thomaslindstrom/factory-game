@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://c2qxi4s65a1nt"]
+
+[ext_resource type="Script" uid="uid://blct5oenkweak" path="res://modules/font/text_sprite.gd" id="1_nhll3"]
+
+[node name="TextSprite2D" type="Node2D" unique_id=1746626676]
+script = ExtResource("1_nhll3")
+text = "1000"

@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://djtwb08a2jk2h"]
+
+[ext_resource type="Script" uid="uid://c06xi37vnoblq" path="res://modules/font/ui_text.gd" id="1_pqjnm"]
+
+[node name="UiText" type="Control" unique_id=1736015980]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_pqjnm")

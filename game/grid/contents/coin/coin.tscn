@@ -1,0 +1,73 @@
+[gd_scene format=3 uid="uid://cq36cpilahkmw"]
+
+[ext_resource type="PackedScene" uid="uid://v3u2k2k1jecg" path="res://game/grid/grid_item_content.tscn" id="1_i33vi"]
+[ext_resource type="Script" uid="uid://b4gv8kdhn58q1" path="res://game/grid/contents/coin/coin.gd" id="2_etm5p"]
+[ext_resource type="Texture2D" uid="uid://brkg3k7j1w745" path="res://sprites.png" id="2_or4sa"]
+[ext_resource type="Script" uid="uid://bfxgkn3sjkf8a" path="res://modules/state/state_machine.gd" id="3_mjjph"]
+[ext_resource type="Script" uid="uid://ofbexg166pcj" path="res://modules/state/state.gd" id="4_nknrm"]
+[ext_resource type="Script" uid="uid://cu7ihxldxy1ru" path="res://game/grid/contents/coin/state/update_score.gd" id="5_nknrm"]
+[ext_resource type="Script" uid="uid://c60cdqkbr2qab" path="res://game/grid/contents/coin/state/particles.gd" id="6_etm5p"]
+[ext_resource type="Script" uid="uid://c6fncdru2mho0" path="res://game/grid/contents/coin/state/idle.gd" id="7_mjjph"]
+[ext_resource type="Script" uid="uid://da6gq6tnbh4vn" path="res://game/grid/state/active.gd" id="8_7xrbg"]
+
+[sub_resource type="Curve" id="Curve_7x2vv"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.26506028, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_p82so"]
+curve = SubResource("Curve_7x2vv")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_55trh"]
+particle_flag_disable_z = true
+angle_min = 1.0728835e-05
+angle_max = 1.0728835e-05
+direction = Vector3(0, -1, 0)
+spread = 75.0
+initial_velocity_min = 50.0
+initial_velocity_max = 100.0
+gravity = Vector3(0, 98, 0)
+alpha_curve = SubResource("CurveTexture_p82so")
+
+[node name="Coin" unique_id=317894498 node_paths=PackedStringArray("active_state") instance=ExtResource("1_i33vi")]
+script = ExtResource("2_etm5p")
+active_state = NodePath("StateMachine/Active")
+
+[node name="Sprite2D" type="Sprite2D" parent="." index="2" unique_id=896112889]
+texture = ExtResource("2_or4sa")
+region_enabled = true
+region_rect = Rect2(0, 32, 32, 32)
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="." index="4" unique_id=139387681]
+emitting = false
+amount = 1
+lifetime = 0.7
+one_shot = true
+process_material = SubResource("ParticleProcessMaterial_55trh")
+
+[node name="StateMachine" type="Node" parent="." index="6" unique_id=615914792]
+script = ExtResource("3_mjjph")
+metadata/_custom_type_script = "uid://bfxgkn3sjkf8a"
+
+[node name="Active" type="Node" parent="StateMachine" index="0" unique_id=1724578575]
+script = ExtResource("4_nknrm")
+metadata/_custom_type_script = "uid://ofbexg166pcj"
+
+[node name="Active" type="Node" parent="StateMachine/Active" index="0" unique_id=1162768557 node_paths=PackedStringArray("cooldown", "animation_player")]
+script = ExtResource("8_7xrbg")
+cooldown = NodePath("../../../Cooldown")
+animation_player = NodePath("../../../AnimationPlayer")
+duration = 1.0
+metadata/_custom_type_script = "uid://dpxlsq53w0ec8"
+
+[node name="UpdateScore" type="Node" parent="StateMachine/Active" index="1" unique_id=1138110375]
+script = ExtResource("5_nknrm")
+
+[node name="Particles" type="Node" parent="StateMachine/Active" index="2" unique_id=918817821 node_paths=PackedStringArray("particles")]
+script = ExtResource("6_etm5p")
+particles = NodePath("../../../GPUParticles2D")
+
+[node name="Idle" type="Node" parent="StateMachine" index="1" unique_id=1033244771 node_paths=PackedStringArray("next_state", "area")]
+script = ExtResource("7_mjjph")
+next_state = NodePath("../Active")
+area = NodePath("../../Area2D")
+metadata/_custom_type_script = "uid://6qw56o73ksxr"

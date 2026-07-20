@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://bskd3d7ku62oy"]
+
+[ext_resource type="Script" uid="uid://cxgxxsg856prp" path="res://modules/font/character_sprite.gd" id="1_7i7pi"]
+
+[node name="CharacterSprite2D" type="Node2D" unique_id=2113940662]
+script = ExtResource("1_7i7pi")

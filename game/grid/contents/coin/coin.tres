@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="GridItemContentResource" format=3 uid="uid://cb05nvk3m0jt0"]
+
+[ext_resource type="PackedScene" uid="uid://cq36cpilahkmw" path="res://game/grid/contents/coin/coin.tscn" id="1_hpcio"]
+[ext_resource type="Script" uid="uid://de6rtmukhb0bj" path="res://game/grid/grid_item_content_resource.gd" id="2_3vhft"]
+
+[resource]
+script = ExtResource("2_3vhft")
+name = "coin"
+scene = ExtResource("1_hpcio")
+can_activate = true
+groups = null
+metadata/_custom_type_script = "uid://de6rtmukhb0bj"
