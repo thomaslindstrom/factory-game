@@ -10,6 +10,7 @@ region = Rect2(99, 132, 32, 32)
 
 [resource]
 script = ExtResource("2_eeyf8")
+price = 100
 sprite = SubResource("AtlasTexture_q08dl")
 grid_item = ExtResource("1_q08dl")
 metadata/_custom_type_script = "uid://bd2h5o6d3fep4"

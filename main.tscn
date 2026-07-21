@@ -140,9 +140,11 @@ pan_speed = 500.0
 [node name="Grid" type="Node2D" parent="GameViewportContainer/GameViewport" unique_id=810262040]
 position = Vector2(640, 360)
 script = ExtResource("4_1bvp3")
+grid_size = Vector2i(129, 129)
 texture = SubResource("AtlasTexture_1bvp3")
 shader = ExtResource("5_efxa6")
-fade_radius = 4.25
+opacity = 0.33
+fade_radius = 5.25
 
 [node name="GridDebugger" type="Node" parent="GameViewportContainer/GameViewport" unique_id=1304857817 node_paths=PackedStringArray("grid")]
 script = ExtResource("5_272bh")
@@ -216,6 +218,7 @@ theme_override_constants/margin_bottom = 8
 [node name="ShopConainerBox" type="NinePatchRect" parent="UiViewportContainer/UiViewport/ShopContainer" unique_id=394974518]
 custom_minimum_size = Vector2(31, 0)
 layout_mode = 2
+mouse_filter = 1
 texture = ExtResource("1_ig7tw")
 region_rect = Rect2(132, 0, 33, 33)
 patch_margin_left = 8

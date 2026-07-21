@@ -6,7 +6,7 @@ signal on_score_changed(score: int)
 var score: int = 10:
 	set(value):
 		score = value
-		on_score_changed.emit(score)
+		on_score_changed.emit(value)
 
 # Shop
 var is_shop_drop_valid: bool = true

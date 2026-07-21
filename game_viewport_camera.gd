@@ -33,6 +33,9 @@ func apply_display_zoom() -> void:
 	viewport_container.scale = base_size / Vector2(viewport_size)
 	viewport_container.position = Vector2.ZERO
 
+func reset_position() -> void:
+	position = (Game.grid.global_position if Game.grid else Vector2.ZERO) + Vector2(0.1, 0.1)
+
 func _physics_process(delta: float) -> void:
 	if Engine.is_editor_hint(): return
 
@@ -60,12 +63,15 @@ func _physics_process(delta: float) -> void:
 	if direction != Vector2.ZERO:
 		position += direction * pan_speed * delta / display_zoom
 
+	if Input.is_action_just_pressed("tertiary"):
+		reset_position()
+
 func _ready() -> void:
 	super._ready()
 	if Engine.is_editor_hint(): return
 
-	game_viewport = get_parent() as SubViewport
-	viewport_container = game_viewport.get_parent() as SubViewportContainer
+	game_viewport = get_parent()
+	viewport_container = game_viewport.get_parent()
 
 	viewport_container.stretch = false
 	viewport_container.anchor_right = 0.0

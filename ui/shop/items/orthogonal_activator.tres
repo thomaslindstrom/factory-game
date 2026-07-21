@@ -10,6 +10,7 @@ region = Rect2(33, 132, 32, 32)
 
 [resource]
 script = ExtResource("2_krsp1")
+price = 9
 sprite = SubResource("AtlasTexture_scbsf")
 grid_item = ExtResource("1_a12n2")
 metadata/_custom_type_script = "uid://bd2h5o6d3fep4"

@@ -6,26 +6,28 @@ class_name Grid
 @export var texture: AtlasTexture
 @export var shader: Shader
 @export var opacity: float = 0.25
-@export var fade_radius: float = 4.0
+@export var fade_radius: float = 5.0
+@export var render_chunk_size: int = 32
 
 var grid: Array[GridItem] = []
 var grid_map: Dictionary[Vector2i, GridItem] = {}
+var grid_item_size: Vector2 = Vector2.ZERO
 var center: Vector2 = Vector2.ZERO
 
-func get_grid_item_size() -> Vector2:
-	return texture.region.size
-
 func get_grid_position() -> Vector2:
-	return -center * get_grid_item_size()
+	return -center * grid_item_size
 
 func get_grid_item_position(coordinates: Vector2i) -> Vector2:
-	return get_grid_position() + (Vector2(coordinates) * get_grid_item_size())
+	return get_grid_position() + (Vector2(coordinates) * grid_item_size)
 
 func get_mouse_position() -> Vector2:
 	return get_global_mouse_position()
 
 func global_position_to_coordinates(input_global_position: Vector2) -> Vector2i:
-	return (to_local(input_global_position) - get_grid_position()) / get_grid_item_size() + Vector2.ONE * 0.5
+	return ((to_local(input_global_position) - get_grid_position()) / grid_item_size + Vector2.ONE * 0.5).clamp(Vector2.ZERO, Vector2(grid_size) - Vector2.ONE)
+
+func are_coordinates_valid(coordinates: Vector2i) -> bool:
+	return coordinates.x >= 0 and coordinates.x < grid_size.x and coordinates.y >= 0 and coordinates.y < grid_size.y
 
 var multimesh_instance: MultiMeshInstance2D
 var multimesh: MultiMesh
@@ -33,6 +35,7 @@ var multimesh: MultiMesh
 @export_tool_button("Render") var button_render: Callable = func() -> void:
 	if multimesh_instance: multimesh_instance.queue_free()
 	multimesh_instance = null
+	
 	build()
 
 func clear() -> void:
@@ -110,6 +113,10 @@ func get_neighbors(coordinates: Vector2i, filter: NeighborFilter = NeighborFilte
 
 	return neighbors
 
+func update_instance_transform(index: int, coordinates: Vector2) -> void:
+	var instance_transform: Transform2D = Transform2D(0.0, coordinates * grid_item_size)
+	multimesh.set_instance_transform_2d(index, instance_transform)
+
 func update_instance_opacity(index: int, coordinates: Vector2) -> void:
 	var closest_item: GridItem = get_closest_item(coordinates)
 	var closest_item_coordinates: Vector2 = closest_item.coordinates if closest_item else Vector2i(center)
@@ -121,23 +128,36 @@ func update_instance_opacity(index: int, coordinates: Vector2) -> void:
 	multimesh.set_instance_color(index, Color(1.0, 1.0, 1.0, quad_opacity))
 
 var is_rendering: bool = false
-var next_chunk_coordinates: Vector2i = Vector2i.ZERO
+var render_iteration: int = 0
 func process_render() -> void:
 	if not is_rendering: return
 
+	var total_cells: int = grid_size.x * grid_size.y
+	var cells_per_frame: int = render_chunk_size * render_chunk_size
+	var start: int = render_iteration * cells_per_frame
+	var end: int = mini(start + cells_per_frame, total_cells)
+
+	for index in range(start, end):
+		var coordinates: Vector2 = Vector2(index % grid_size.x, index / grid_size.x)
+		update_instance_transform(index, coordinates)
+		update_instance_opacity(index, coordinates)
+
+	if end >= total_cells:
+		is_rendering = false
+		render_iteration = 0
+	else: render_iteration += 1
+
+func queue_render() -> void:
+	is_rendering = true
+
 func render() -> void:
 	var index: int = 0
-	var grid_item_size: Vector2 = get_grid_item_size()
 
 	for y in grid_size.y: for x in grid_size.x:
 		var coordinates: Vector2 = Vector2(x, y)
-		var instance_transform: Transform2D = Transform2D(0.0, coordinates * grid_item_size)
-
-		multimesh.set_instance_transform_2d(index, instance_transform)
+		update_instance_transform(index, coordinates)
 		update_instance_opacity(index, coordinates)
 		index += 1
-
-	multimesh_instance.position = get_grid_position()
 	
 func render_around(coordinates: Vector2i) -> void:
 	var radius: int = ceili(fade_radius)
@@ -150,7 +170,6 @@ func render_around(coordinates: Vector2i) -> void:
 		
 func build() -> void:
 	if multimesh_instance: return
-	var grid_item_size: Vector2 = get_grid_item_size()
 	var atlas_size: Vector2 = texture.atlas.get_size()
 
 	var shader_material: ShaderMaterial = ShaderMaterial.new()
@@ -176,7 +195,8 @@ func build() -> void:
 	multimesh.instance_count = grid_size.x * grid_size.y
 
 	multimesh_instance.multimesh = multimesh
-	render()
+	multimesh_instance.position = get_grid_position()
+	queue_render()
 
 func has_item(coordinates: Vector2i) -> bool:
 	return grid_map.has(coordinates)
@@ -215,8 +235,11 @@ func move_item(item: GridItem, coordinates: Vector2i) -> bool:
 	return true
 
 func _ready() -> void:
+	grid_item_size = texture.region.size
 	center = (Vector2(grid_size) - Vector2.ONE) * 0.5
-	Game.grid = self
+
+	if not Engine.is_editor_hint():
+		Game.grid = self
 
 	var viewport: Viewport = get_viewport()
 	var camera: Camera2D = viewport.get_camera_2d()
@@ -228,3 +251,6 @@ func _ready() -> void:
 	position = (viewport_size * 0.5) / zoom
 	
 	build()
+
+func _physics_process(_delta: float) -> void:
+	process_render()
