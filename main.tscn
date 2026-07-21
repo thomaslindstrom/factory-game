@@ -8,14 +8,25 @@
 [ext_resource type="Script" uid="uid://eq2yr8ietoxx" path="res://ui_viewport_camera.gd" id="5_7mycd"]
 [ext_resource type="Script" uid="uid://ci18myf5wo6k" path="res://game/grid/grid_debugger.gd" id="5_272bh"]
 [ext_resource type="Shader" uid="uid://dabtrrtqndsd2" path="res://game/grid/grid.gdshader" id="5_efxa6"]
+[ext_resource type="Script" uid="uid://kowehd1v7gqd" path="res://ui_viewport_container.gd" id="5_uivp"]
 [ext_resource type="Script" uid="uid://boovmr37gcaus" path="res://game/grid/grid_item_resource.gd" id="6_kek77"]
 [ext_resource type="Resource" uid="uid://cb05nvk3m0jt0" path="res://game/grid/contents/coin/coin.tres" id="7_4c57u"]
-[ext_resource type="Resource" uid="uid://tsp3qmtuv66i" path="res://game/grid/contents/auto/auto.tres" id="9_dg77c"]
+[ext_resource type="Resource" uid="uid://tsp3qmtuv66i" path="res://game/grid/contents/activator/activator.tres" id="9_dg77c"]
 [ext_resource type="Script" uid="uid://d0i5tuphwd1tr" path="res://ui/score.gd" id="10_4c57u"]
+[ext_resource type="Resource" uid="uid://qiinttxels8s" path="res://game/grid/contents/diagonal_activator/diagonal_activator.tres" id="10_ycdy4"]
+[ext_resource type="Resource" uid="uid://sbritqxnu8kw" path="res://game/grid/contents/omnidirectional_activator/omnidirectional_activator.tres" id="11_w48qg"]
+[ext_resource type="Script" uid="uid://b0syndc0c1c63" path="res://game/grid/grid_shop_drop_hover.gd" id="12_ryguw"]
+[ext_resource type="Script" uid="uid://c06xi37vnoblq" path="res://modules/font/ui_text.gd" id="15_vivmo"]
+[ext_resource type="PackedScene" uid="uid://djugnie0engre" path="res://ui/shop/ui_shop_item.tscn" id="16_2cqfq"]
+[ext_resource type="Script" uid="uid://ck1pemibdoqb" path="res://ui/shop/shop_container_box.gd" id="17_d13ii"]
+[ext_resource type="Resource" uid="uid://c82or7rr5rxrk" path="res://ui/shop/items/coin.tres" id="17_yaehf"]
+[ext_resource type="Resource" uid="uid://bx1vunx03dh8o" path="res://ui/shop/items/orthogonal_activator.tres" id="18_82xsv"]
+[ext_resource type="Resource" uid="uid://u06rhgrcv036" path="res://ui/shop/items/diagonal_activator.tres" id="19_getpj"]
+[ext_resource type="Resource" uid="uid://dl50jblxfq8t1" path="res://ui/shop/items/omnidirectional_activator.tres" id="20_ryguw"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_1bvp3"]
 atlas = ExtResource("1_ig7tw")
-region = Rect2(32, 0, 32, 32)
+region = Rect2(33, 0, 33, 33)
 
 [sub_resource type="Resource" id="Resource_dg77c"]
 script = ExtResource("6_kek77")
@@ -59,6 +70,28 @@ coordinates = Vector2i(4, 2)
 content = ExtResource("7_4c57u")
 metadata/_custom_type_script = "uid://boovmr37gcaus"
 
+[sub_resource type="Resource" id="Resource_u5fkd"]
+script = ExtResource("6_kek77")
+coordinates = Vector2i(7, 2)
+content = ExtResource("10_ycdy4")
+metadata/_custom_type_script = "uid://boovmr37gcaus"
+
+[sub_resource type="Resource" id="Resource_1tjgl"]
+script = ExtResource("6_kek77")
+coordinates = Vector2i(8, 2)
+content = ExtResource("11_w48qg")
+metadata/_custom_type_script = "uid://boovmr37gcaus"
+
+[sub_resource type="Resource" id="Resource_adtaa"]
+script = ExtResource("6_kek77")
+coordinates = Vector2i(7, 3)
+content = ExtResource("7_4c57u")
+metadata/_custom_type_script = "uid://boovmr37gcaus"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ryguw"]
+atlas = ExtResource("1_ig7tw")
+region = Rect2(165, 0, 33, 33)
+
 [node name="Main" type="Control" unique_id=30251666]
 layout_mode = 3
 anchors_preset = 15
@@ -78,9 +111,50 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.021210132, 0.027269121, 0.051798686, 1)
+color = Color(0.018, 0.0224, 0.04, 1)
 
 [node name="GameViewportContainer" type="SubViewportContainer" parent="." unique_id=1987820623]
+unique_name_in_owner = true
+layout_mode = 1
+
+[node name="GameViewport" type="SubViewport" parent="GameViewportContainer" unique_id=2141214922]
+disable_3d = true
+transparent_bg = true
+handle_input_locally = false
+canvas_item_default_texture_filter = 0
+physics_object_picking = true
+positional_shadow_atlas_size = 0
+positional_shadow_atlas_16_bits = false
+positional_shadow_atlas_quad_0 = 0
+positional_shadow_atlas_quad_1 = 0
+positional_shadow_atlas_quad_2 = 0
+positional_shadow_atlas_quad_3 = 0
+size = Vector2i(1280, 720)
+render_target_update_mode = 4
+
+[node name="Camera2D" type="Camera2D" parent="GameViewportContainer/GameViewport" unique_id=474031424]
+position_smoothing_enabled = true
+script = ExtResource("2_lquwl")
+pan_speed = 500.0
+
+[node name="Grid" type="Node2D" parent="GameViewportContainer/GameViewport" unique_id=810262040]
+position = Vector2(640, 360)
+script = ExtResource("4_1bvp3")
+texture = SubResource("AtlasTexture_1bvp3")
+shader = ExtResource("5_efxa6")
+fade_radius = 4.25
+
+[node name="GridDebugger" type="Node" parent="GameViewportContainer/GameViewport" unique_id=1304857817 node_paths=PackedStringArray("grid")]
+script = ExtResource("5_272bh")
+grid = NodePath("../Grid")
+items = Array[ExtResource("6_kek77")]([SubResource("Resource_dg77c"), SubResource("Resource_o24m2"), SubResource("Resource_etm5p"), SubResource("Resource_7xrbg"), SubResource("Resource_ycdy4"), SubResource("Resource_w48qg"), SubResource("Resource_vivmo"), SubResource("Resource_u5fkd"), SubResource("Resource_1tjgl"), SubResource("Resource_adtaa")])
+
+[node name="GridShopDropHover" type="Node2D" parent="GameViewportContainer/GameViewport" unique_id=17478651 node_paths=PackedStringArray("grid")]
+script = ExtResource("12_ryguw")
+grid = NodePath("../Grid")
+purchase_texture = SubResource("AtlasTexture_ryguw")
+
+[node name="UiViewportContainer" type="SubViewportContainer" parent="." unique_id=1306108882]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 15
@@ -89,8 +163,9 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 stretch = true
+script = ExtResource("5_uivp")
 
-[node name="GameViewport" type="SubViewport" parent="GameViewportContainer" unique_id=2141214922]
+[node name="UiViewport" type="SubViewport" parent="UiViewportContainer" unique_id=1188251435]
 disable_3d = true
 transparent_bg = true
 handle_input_locally = false
@@ -107,63 +182,84 @@ positional_shadow_atlas_quad_3 = 0
 size = Vector2i(1280, 720)
 render_target_update_mode = 4
 
-[node name="Camera2D" type="Camera2D" parent="GameViewportContainer/GameViewport" unique_id=474031424]
-zoom = Vector2(4, 4)
-position_smoothing_enabled = true
-script = ExtResource("2_lquwl")
-pan_speed = 500.0
-
-[node name="Grid" type="Node2D" parent="GameViewportContainer/GameViewport" unique_id=810262040]
-position = Vector2(160, 90)
-script = ExtResource("4_1bvp3")
-grid_size = Vector2i(13, 7)
-texture = SubResource("AtlasTexture_1bvp3")
-shader = ExtResource("5_efxa6")
-fade_radius = 4.25
-
-[node name="GridDebugger" type="Node" parent="GameViewportContainer/GameViewport" unique_id=1304857817 node_paths=PackedStringArray("grid")]
-script = ExtResource("5_272bh")
-grid = NodePath("../Grid")
-items = Array[ExtResource("6_kek77")]([SubResource("Resource_dg77c"), SubResource("Resource_o24m2"), SubResource("Resource_etm5p"), SubResource("Resource_7xrbg"), SubResource("Resource_ycdy4"), SubResource("Resource_w48qg"), SubResource("Resource_vivmo")])
-
-[node name="UiViewportContainer" type="SubViewportContainer" parent="." unique_id=1306108882]
-unique_name_in_owner = true
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-stretch = true
-
-[node name="UiViewport" type="SubViewport" parent="UiViewportContainer" unique_id=1188251435]
-disable_3d = true
-transparent_bg = true
-handle_input_locally = false
-snap_2d_transforms_to_pixel = true
-snap_2d_vertices_to_pixel = true
-canvas_item_default_texture_filter = 0
-positional_shadow_atlas_size = 0
-positional_shadow_atlas_16_bits = false
-positional_shadow_atlas_quad_0 = 0
-positional_shadow_atlas_quad_1 = 0
-positional_shadow_atlas_quad_2 = 0
-positional_shadow_atlas_quad_3 = 0
-size = Vector2i(1280, 720)
-render_target_update_mode = 4
-
 [node name="Camera2D" type="Camera2D" parent="UiViewportContainer/UiViewport" unique_id=1440604307]
 anchor_mode = 0
-zoom = Vector2(4, 4)
 script = ExtResource("5_7mycd")
+camera_type = 1
 
 [node name="MarginContainer" type="MarginContainer" parent="UiViewportContainer/UiViewport" unique_id=523376642]
 offset_right = 10.0
 offset_bottom = 13.0
+mouse_filter = 2
 theme_override_constants/margin_left = 6
 theme_override_constants/margin_top = 4
 
 [node name="UiText" parent="UiViewportContainer/UiViewport/MarginContainer" unique_id=1736015980 instance=ExtResource("3_h2yge")]
 layout_mode = 2
+mouse_filter = 2
 script = ExtResource("10_4c57u")
+
+[node name="ShopContainer" type="MarginContainer" parent="UiViewportContainer/UiViewport" unique_id=2068535603]
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -16.0
+grow_horizontal = 0
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="ShopConainerBox" type="NinePatchRect" parent="UiViewportContainer/UiViewport/ShopContainer" unique_id=394974518]
+custom_minimum_size = Vector2(31, 0)
+layout_mode = 2
+texture = ExtResource("1_ig7tw")
+region_rect = Rect2(132, 0, 33, 33)
+patch_margin_left = 8
+patch_margin_top = 8
+patch_margin_right = 8
+patch_margin_bottom = 8
+script = ExtResource("17_d13ii")
+
+[node name="MarginContainer" type="MarginContainer" parent="UiViewportContainer/UiViewport/ShopContainer/ShopConainerBox" unique_id=1033789640]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+theme_override_constants/margin_left = 6
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="UiViewportContainer/UiViewport/ShopContainer/ShopConainerBox/MarginContainer" unique_id=1339545596]
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="UiText" type="Control" parent="UiViewportContainer/UiViewport/ShopContainer/ShopConainerBox/MarginContainer/VBoxContainer2" unique_id=1573723990]
+custom_minimum_size = Vector2(19, 9)
+layout_mode = 2
+script = ExtResource("15_vivmo")
+text = "SHOP"
+metadata/_custom_type_script = "uid://c06xi37vnoblq"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UiViewportContainer/UiViewport/ShopContainer/ShopConainerBox/MarginContainer/VBoxContainer2" unique_id=2070380533]
+layout_mode = 2
+theme_override_constants/separation = 3
+
+[node name="UiShopItem" parent="UiViewportContainer/UiViewport/ShopContainer/ShopConainerBox/MarginContainer/VBoxContainer2/VBoxContainer" unique_id=1928370238 instance=ExtResource("16_2cqfq")]
+layout_mode = 2
+shop_item = ExtResource("17_yaehf")
+
+[node name="UiShopItem2" parent="UiViewportContainer/UiViewport/ShopContainer/ShopConainerBox/MarginContainer/VBoxContainer2/VBoxContainer" unique_id=1743539774 instance=ExtResource("16_2cqfq")]
+layout_mode = 2
+shop_item = ExtResource("18_82xsv")
+
+[node name="UiShopItem3" parent="UiViewportContainer/UiViewport/ShopContainer/ShopConainerBox/MarginContainer/VBoxContainer2/VBoxContainer" unique_id=101133944 instance=ExtResource("16_2cqfq")]
+layout_mode = 2
+shop_item = ExtResource("19_getpj")
+
+[node name="UiShopItem4" parent="UiViewportContainer/UiViewport/ShopContainer/ShopConainerBox/MarginContainer/VBoxContainer2/VBoxContainer" unique_id=1878967748 instance=ExtResource("16_2cqfq")]
+layout_mode = 2
+shop_item = ExtResource("20_ryguw")

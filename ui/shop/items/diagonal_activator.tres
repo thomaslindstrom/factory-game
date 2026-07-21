@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="ShopItem" format=3 uid="uid://u06rhgrcv036"]
+
+[ext_resource type="Resource" uid="uid://qiinttxels8s" path="res://game/grid/contents/diagonal_activator/diagonal_activator.tres" id="1_f5dvo"]
+[ext_resource type="Script" uid="uid://bd2h5o6d3fep4" path="res://ui/shop/shop_item.gd" id="2_s7g6b"]
+[ext_resource type="Texture2D" uid="uid://brkg3k7j1w745" path="res://sprites.png" id="3_m7bf4"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_s7g6b"]
+atlas = ExtResource("3_m7bf4")
+region = Rect2(66, 132, 32, 32)
+
+[resource]
+script = ExtResource("2_s7g6b")
+sprite = SubResource("AtlasTexture_s7g6b")
+grid_item = ExtResource("1_f5dvo")
+metadata/_custom_type_script = "uid://bd2h5o6d3fep4"

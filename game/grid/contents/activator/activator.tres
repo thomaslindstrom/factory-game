@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="GridItemContentResource" format=3 uid="uid://tsp3qmtuv66i"]
+
+[ext_resource type="PackedScene" uid="uid://dxc7424vvo5q2" path="res://game/grid/contents/activator/activator.tscn" id="1_1sqvx"]
+[ext_resource type="Script" uid="uid://de6rtmukhb0bj" path="res://game/grid/grid_item_content_resource.gd" id="2_hjjsi"]
+
+[resource]
+script = ExtResource("2_hjjsi")
+name = "activator"
+scene = ExtResource("1_1sqvx")
+metadata/_custom_type_script = "uid://de6rtmukhb0bj"

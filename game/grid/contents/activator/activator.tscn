@@ -1,0 +1,95 @@
+[gd_scene format=3 uid="uid://dxc7424vvo5q2"]
+
+[ext_resource type="PackedScene" uid="uid://v3u2k2k1jecg" path="res://game/grid/grid_item_content.tscn" id="1_u5fkd"]
+[ext_resource type="Script" uid="uid://cg8q0wbxtjgm6" path="res://game/grid/contents/activator/activator.gd" id="2_rmvst"]
+[ext_resource type="Shader" uid="uid://5b2xl1sbf3v0" path="res://game/grid/grid_item_content.gdshader" id="3_cuicl"]
+[ext_resource type="Texture2D" uid="uid://brkg3k7j1w745" path="res://sprites.png" id="3_damwd"]
+[ext_resource type="Script" uid="uid://bfxgkn3sjkf8a" path="res://modules/state/state_machine.gd" id="4_cuicl"]
+[ext_resource type="Script" uid="uid://ckm4xj63a3amy" path="res://game/grid/contents/activator/state/find.gd" id="5_2p4v0"]
+[ext_resource type="Script" uid="uid://dpxlsq53w0ec8" path="res://modules/state/behaviors/duration.gd" id="6_aceyo"]
+[ext_resource type="Script" uid="uid://ofbexg166pcj" path="res://modules/state/state.gd" id="7_uclwx"]
+[ext_resource type="Script" uid="uid://da6gq6tnbh4vn" path="res://game/grid/state/active.gd" id="8_vx8pe"]
+[ext_resource type="Script" uid="uid://6qw56o73ksxr" path="res://modules/state/state_fallback.gd" id="9_lw8pr"]
+[ext_resource type="Script" uid="uid://bsw3kfsfllicg" path="res://game/grid/contents/activator/state/boot.gd" id="9_rmvst"]
+[ext_resource type="Script" uid="uid://c2kjq7gd2q0d1" path="res://modules/state/behaviors/skip.gd" id="10_mb48r"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_damwd"]
+shader = ExtResource("3_cuicl")
+shader_parameter/use_color = true
+shader_parameter/color = Color(0.051999997, 0.051999997, 0.08, 1)
+
+[node name="Activator" unique_id=317894498 instance=ExtResource("1_u5fkd")]
+script = ExtResource("2_rmvst")
+neighbor_filter = 0
+use_frame_color = true
+frame_color = Color(0.050980393, 0.050980393, 0.078431375, 1)
+
+[node name="Frame" parent="." index="0" unique_id=1165232289]
+material = SubResource("ShaderMaterial_damwd")
+
+[node name="Orthogonal" type="Sprite2D" parent="." index="2" unique_id=1448707358]
+unique_name_in_owner = true
+self_modulate = Color(1, 1, 1, 0.39215687)
+texture = ExtResource("3_damwd")
+region_enabled = true
+region_rect = Rect2(33, 33, 33, 33)
+
+[node name="Diagonal" type="Sprite2D" parent="." index="3" unique_id=1816045438]
+unique_name_in_owner = true
+visible = false
+self_modulate = Color(1, 1, 1, 0.39215687)
+texture = ExtResource("3_damwd")
+region_enabled = true
+region_rect = Rect2(66, 33, 33, 33)
+
+[node name="OrthogonalTarget" type="Sprite2D" parent="." index="4" unique_id=299233243]
+unique_name_in_owner = true
+visible = false
+texture = ExtResource("3_damwd")
+region_enabled = true
+region_rect = Rect2(33, 66, 33, 33)
+
+[node name="DiagonalTarget" type="Sprite2D" parent="." index="5" unique_id=537974097]
+unique_name_in_owner = true
+visible = false
+texture = ExtResource("3_damwd")
+region_enabled = true
+region_rect = Rect2(66, 66, 33, 33)
+
+[node name="StateMachine" type="Node" parent="." index="8" unique_id=1109949422]
+script = ExtResource("4_cuicl")
+metadata/_custom_type_script = "uid://bfxgkn3sjkf8a"
+
+[node name="Find" type="Node" parent="StateMachine" index="0" unique_id=1999681084 node_paths=PackedStringArray("grid_item_content", "next_state")]
+script = ExtResource("5_2p4v0")
+grid_item_content = NodePath("../..")
+next_state = NodePath("../Active")
+metadata/_custom_type_script = "uid://ofbexg166pcj"
+
+[node name="StateBehaviorDuration" type="Node" parent="StateMachine/Find" index="0" unique_id=1451444560]
+script = ExtResource("6_aceyo")
+duration = 0.5
+metadata/_custom_type_script = "uid://dpxlsq53w0ec8"
+
+[node name="Active" type="Node" parent="StateMachine" index="1" unique_id=1957810892]
+script = ExtResource("7_uclwx")
+metadata/_custom_type_script = "uid://ofbexg166pcj"
+
+[node name="Active" type="Node" parent="StateMachine/Active" index="0" unique_id=1487444975 node_paths=PackedStringArray("cooldown", "animation_player")]
+script = ExtResource("8_vx8pe")
+cooldown = NodePath("../../../Cooldown")
+animation_player = NodePath("../../../AnimationPlayer")
+duration = 2.0
+
+[node name="Boot" type="Node" parent="StateMachine" index="2" unique_id=2146864168]
+script = ExtResource("9_rmvst")
+metadata/_custom_type_script = "uid://6qw56o73ksxr"
+
+[node name="Idle" type="Node" parent="StateMachine" index="3" unique_id=392502958]
+script = ExtResource("9_lw8pr")
+metadata/_custom_type_script = "uid://6qw56o73ksxr"
+
+[node name="StateBehaviorSkip" type="Node" parent="StateMachine/Idle" index="0" unique_id=1777950748 node_paths=PackedStringArray("next_state")]
+script = ExtResource("10_mb48r")
+next_state = NodePath("../../Find")
+metadata/_custom_type_script = "uid://c2kjq7gd2q0d1"

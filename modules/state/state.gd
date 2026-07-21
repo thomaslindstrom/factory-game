@@ -3,6 +3,7 @@
 class_name State
 extends Node
 
+## If `true`, will print debug logging
 @export var is_logged: bool = false
 
 var validation_interval: float = 0.0

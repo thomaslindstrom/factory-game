@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="ShopItem" format=3 uid="uid://c82or7rr5rxrk"]
+
+[ext_resource type="Resource" uid="uid://cb05nvk3m0jt0" path="res://game/grid/contents/coin/coin.tres" id="1_0yvm8"]
+[ext_resource type="Script" uid="uid://bd2h5o6d3fep4" path="res://ui/shop/shop_item.gd" id="1_kw4wy"]
+[ext_resource type="Texture2D" uid="uid://bpnuvai1jxtif" path="res://game/grid/background.tres" id="3_a3xs5"]
+
+[resource]
+script = ExtResource("1_kw4wy")
+sprite = ExtResource("3_a3xs5")
+grid_item = ExtResource("1_0yvm8")
+metadata/_custom_type_script = "uid://bd2h5o6d3fep4"

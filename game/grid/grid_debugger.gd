@@ -2,7 +2,9 @@
 extends Node
 class_name GridDebugger
 
+@export var is_active: bool = false
 @export var grid: Grid
+@export var offset_from_center: bool = false
 @export var items: Array[GridItemResource] = []
 
 @export_tool_button("Render") var button_render: Callable = render
@@ -13,7 +15,7 @@ func _get_configuration_warnings() -> PackedStringArray:
 	return warnings
 
 func render() -> void:
-	if not grid: return
+	if not grid or not is_active: return
 	grid.clear()
 
 	for item_resource in items:

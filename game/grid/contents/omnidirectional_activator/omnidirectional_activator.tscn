@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://b4etfqef4x2x7"]
+
+[ext_resource type="PackedScene" uid="uid://dxc7424vvo5q2" path="res://game/grid/contents/activator/activator.tscn" id="1_xr356"]
+
+[node name="Activator" unique_id=317894498 instance=ExtResource("1_xr356")]
+neighbor_filter = 2
+use_frame_color = false
+frame_color = Color(1, 1, 1, 1)
+
+[node name="Hover" parent="." index="1" unique_id=387404026]
+modulate = Color(1, 1, 1, 0)
+
+[node name="Cooldown" parent="." index="7" unique_id=895928947]
+visible = false

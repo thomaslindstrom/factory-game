@@ -1,11 +1,17 @@
 [gd_scene format=3 uid="uid://v3u2k2k1jecg"]
 
 [ext_resource type="Script" uid="uid://cfms6w1k6lu0c" path="res://game/grid/grid_item_content.gd" id="1_v2wdc"]
+[ext_resource type="Shader" uid="uid://5b2xl1sbf3v0" path="res://game/grid/grid_item_content.gdshader" id="2_7u4yu"]
 [ext_resource type="Texture2D" uid="uid://brkg3k7j1w745" path="res://sprites.png" id="2_i7w1r"]
 [ext_resource type="PackedScene" uid="uid://ccdfju36rv47k" path="res://game/grid/components/cooldown.tscn" id="3_kn7j0"]
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_kn7j0"]
+shader = ExtResource("2_7u4yu")
+shader_parameter/use_color = false
+shader_parameter/color = Color(1, 1, 1, 1)
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_55trh"]
-size = Vector2(32, 32)
+size = Vector2(33, 33)
 
 [sub_resource type="Animation" id="Animation_cn22m"]
 length = 0.001
@@ -21,6 +27,18 @@ tracks/0/keys = {
 "update": 0,
 "values": [0.0]
 }
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
 
 [sub_resource type="Animation" id="Animation_7xrbg"]
 resource_name = "wobble"
@@ -31,10 +49,22 @@ tracks/0/path = NodePath(".:rotation")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.06666667, 0.16666667, 0.3, 0.43333334, 0.6, 0.8),
+"times": PackedFloat32Array(0, 0.06666667, 0.16666667, 0.26666668, 0.36666667, 0.5, 0.6333333),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
 "update": 0,
-"values": [0.0, 0.073303826, -0.18675023, 0.10995574, -0.06981317, 0.034906585, 0.0]
+"values": [0.0, 0.073303826, -0.18675023, 0.10995574, -0.06981317, 0.02617993877991494, 0.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.099999994, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(0.9, 0.9), Vector2(1, 1)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_kn7j0"]
@@ -48,9 +78,10 @@ script = ExtResource("1_v2wdc")
 
 [node name="Frame" type="Sprite2D" parent="." unique_id=1165232289]
 unique_name_in_owner = true
+material = SubResource("ShaderMaterial_kn7j0")
 texture = ExtResource("2_i7w1r")
 region_enabled = true
-region_rect = Rect2(0, 0, 32, 32)
+region_rect = Rect2(0, 0, 33, 33)
 
 [node name="Area2D" type="Area2D" parent="." unique_id=412053795]
 unique_name_in_owner = true
@@ -62,3 +93,11 @@ shape = SubResource("RectangleShape2D_55trh")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=761470677]
 libraries/ = SubResource("AnimationLibrary_kn7j0")
+
+[node name="Hover" type="Sprite2D" parent="." unique_id=387404026]
+unique_name_in_owner = true
+modulate = Color(1, 1, 1, 0)
+self_modulate = Color(1, 1, 1, 0.15686275)
+texture = ExtResource("2_i7w1r")
+region_enabled = true
+region_rect = Rect2(99, 0, 33, 33)

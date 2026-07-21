@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://cn2d448kwetwn"]
+
+[ext_resource type="PackedScene" uid="uid://dxc7424vvo5q2" path="res://game/grid/contents/activator/activator.tscn" id="1_vxuha"]
+
+[node name="Activator" unique_id=317894498 instance=ExtResource("1_vxuha")]
+neighbor_filter = 1

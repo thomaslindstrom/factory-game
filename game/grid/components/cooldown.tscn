@@ -8,6 +8,7 @@ script = ExtResource("1_1bkhs")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1786274100]
 unique_name_in_owner = true
+self_modulate = Color(1, 1, 1, 0.47058824)
 texture = ExtResource("2_y1pox")
 region_enabled = true
-region_rect = Rect2(64, 0, 32, 32)
+region_rect = Rect2(66, 0, 33, 33)

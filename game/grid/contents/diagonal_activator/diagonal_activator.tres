@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="GridItemContentResource" format=3 uid="uid://qiinttxels8s"]
+
+[ext_resource type="PackedScene" uid="uid://cn2d448kwetwn" path="res://game/grid/contents/diagonal_activator/diagonal_activator.tscn" id="1_4a6e3"]
+[ext_resource type="Script" uid="uid://de6rtmukhb0bj" path="res://game/grid/grid_item_content_resource.gd" id="1_wglv8"]
+
+[resource]
+script = ExtResource("1_wglv8")
+name = "diagonal_activator"
+scene = ExtResource("1_4a6e3")
+metadata/_custom_type_script = "uid://de6rtmukhb0bj"

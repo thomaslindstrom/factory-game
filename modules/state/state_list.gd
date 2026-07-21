@@ -51,10 +51,6 @@ func prepare_local_states() -> void:
 		var local_state_index: int = index
 		var local_state: State = local_states[local_state_index]
 
-		local_state.can_activate = Callable(func() -> bool:
-			return local_state_index < active_state_index
-		)
-
 		if local_state.is_active:
 			if active_state: local_state.deactivate()
 			elif is_active:

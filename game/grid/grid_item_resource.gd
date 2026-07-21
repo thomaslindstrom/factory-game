@@ -12,6 +12,5 @@ func create() -> GridItem:
 	var content_instance = content.create()
 	var item_instance: GridItem = GridItem.new(content_instance)
 	item_instance.coordinates = coordinates
-	content_instance.item = item_instance
 	
 	return item_instance

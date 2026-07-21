@@ -35,7 +35,7 @@ active_state = NodePath("StateMachine/Active")
 [node name="Sprite2D" type="Sprite2D" parent="." index="2" unique_id=896112889]
 texture = ExtResource("2_or4sa")
 region_enabled = true
-region_rect = Rect2(0, 32, 32, 32)
+region_rect = Rect2(0, 33, 33, 33)
 
 [node name="GPUParticles2D" type="GPUParticles2D" parent="." index="4" unique_id=139387681]
 emitting = false
