@@ -4,6 +4,7 @@ class_name GridItemContentResource
 
 @export var name: String
 @export var scene: PackedScene
+@export var drop_preview_scene: PackedScene
 @export var can_activate: bool = false
 @export var groups: Array[String] = []
 

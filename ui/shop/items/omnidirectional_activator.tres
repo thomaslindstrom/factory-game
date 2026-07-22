@@ -1,5 +1,6 @@
-[gd_resource type="Resource" script_class="ShopItem" format=3 uid="uid://dl50jblxfq8t1"]
+[gd_resource type="Resource" script_class="ShopItemResource" format=3 uid="uid://dl50jblxfq8t1"]
 
+[ext_resource type="PackedScene" uid="uid://dtdinpdyhwhx2" path="res://game/grid/contents/omnidirectional_activator/omnidirectional_activator_drop_preview.tscn" id="1_jyu8d"]
 [ext_resource type="Resource" uid="uid://sbritqxnu8kw" path="res://game/grid/contents/omnidirectional_activator/omnidirectional_activator.tres" id="1_q08dl"]
 [ext_resource type="Script" uid="uid://bd2h5o6d3fep4" path="res://ui/shop/shop_item.gd" id="2_eeyf8"]
 [ext_resource type="Texture2D" uid="uid://brkg3k7j1w745" path="res://sprites.png" id="3_4juvr"]
@@ -13,4 +14,5 @@ script = ExtResource("2_eeyf8")
 price = 100
 sprite = SubResource("AtlasTexture_q08dl")
 grid_item = ExtResource("1_q08dl")
+grid_drop_preview_scene = ExtResource("1_jyu8d")
 metadata/_custom_type_script = "uid://bd2h5o6d3fep4"

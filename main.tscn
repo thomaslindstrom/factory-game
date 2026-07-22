@@ -11,10 +11,11 @@
 [ext_resource type="Script" uid="uid://kowehd1v7gqd" path="res://ui_viewport_container.gd" id="5_uivp"]
 [ext_resource type="Script" uid="uid://boovmr37gcaus" path="res://game/grid/grid_item_resource.gd" id="6_kek77"]
 [ext_resource type="Resource" uid="uid://cb05nvk3m0jt0" path="res://game/grid/contents/coin/coin.tres" id="7_4c57u"]
-[ext_resource type="Resource" uid="uid://tsp3qmtuv66i" path="res://game/grid/contents/activator/activator.tres" id="9_dg77c"]
+[ext_resource type="Resource" uid="uid://tsp3qmtuv66i" path="res://game/grid/contents/orthogonal_activator/orthogonal_activator.tres" id="9_dg77c"]
 [ext_resource type="Script" uid="uid://d0i5tuphwd1tr" path="res://ui/score.gd" id="10_4c57u"]
 [ext_resource type="Resource" uid="uid://qiinttxels8s" path="res://game/grid/contents/diagonal_activator/diagonal_activator.tres" id="10_ycdy4"]
 [ext_resource type="Resource" uid="uid://sbritqxnu8kw" path="res://game/grid/contents/omnidirectional_activator/omnidirectional_activator.tres" id="11_w48qg"]
+[ext_resource type="Script" uid="uid://b8iwfctl3sl2" path="res://game/grid/grid_drop_hover.gd" id="12_1u8w0"]
 [ext_resource type="Script" uid="uid://b0syndc0c1c63" path="res://game/grid/grid_shop_drop_hover.gd" id="12_ryguw"]
 [ext_resource type="Script" uid="uid://c06xi37vnoblq" path="res://modules/font/ui_text.gd" id="15_vivmo"]
 [ext_resource type="PackedScene" uid="uid://djugnie0engre" path="res://ui/shop/ui_shop_item.tscn" id="16_2cqfq"]
@@ -88,7 +89,15 @@ coordinates = Vector2i(7, 3)
 content = ExtResource("7_4c57u")
 metadata/_custom_type_script = "uid://boovmr37gcaus"
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_ryguw"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_1u8w0"]
+atlas = ExtResource("1_ig7tw")
+region = Rect2(165, 66, 33, 33)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4d06p"]
+atlas = ExtResource("1_ig7tw")
+region = Rect2(165, 33, 33, 33)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0odxb"]
 atlas = ExtResource("1_ig7tw")
 region = Rect2(165, 0, 33, 33)
 
@@ -151,10 +160,16 @@ script = ExtResource("5_272bh")
 grid = NodePath("../Grid")
 items = Array[ExtResource("6_kek77")]([SubResource("Resource_dg77c"), SubResource("Resource_o24m2"), SubResource("Resource_etm5p"), SubResource("Resource_7xrbg"), SubResource("Resource_ycdy4"), SubResource("Resource_w48qg"), SubResource("Resource_vivmo"), SubResource("Resource_u5fkd"), SubResource("Resource_1tjgl"), SubResource("Resource_adtaa")])
 
+[node name="GridDropHover" type="Node2D" parent="GameViewportContainer/GameViewport" unique_id=2141875067 node_paths=PackedStringArray("grid")]
+script = ExtResource("12_1u8w0")
+grid = NodePath("../Grid")
+old_drop_texture = SubResource("AtlasTexture_1u8w0")
+new_drop_texture = SubResource("AtlasTexture_4d06p")
+
 [node name="GridShopDropHover" type="Node2D" parent="GameViewportContainer/GameViewport" unique_id=17478651 node_paths=PackedStringArray("grid")]
 script = ExtResource("12_ryguw")
 grid = NodePath("../Grid")
-purchase_texture = SubResource("AtlasTexture_ryguw")
+purchase_texture = SubResource("AtlasTexture_0odxb")
 
 [node name="UiViewportContainer" type="SubViewportContainer" parent="." unique_id=1306108882]
 unique_name_in_owner = true

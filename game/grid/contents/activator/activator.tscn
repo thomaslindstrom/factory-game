@@ -16,20 +16,20 @@
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_damwd"]
 shader = ExtResource("3_cuicl")
 shader_parameter/use_color = true
-shader_parameter/color = Color(0.051999997, 0.051999997, 0.08, 1)
+shader_parameter/color = Color(0.1264753, 0.12648061, 0.17168495, 1)
 
 [node name="Activator" unique_id=317894498 instance=ExtResource("1_u5fkd")]
 script = ExtResource("2_rmvst")
 neighbor_filter = 0
 use_frame_color = true
-frame_color = Color(0.050980393, 0.050980393, 0.078431375, 1)
+frame_color = Color(0.1264753, 0.12648061, 0.17168495, 1)
 
 [node name="Frame" parent="." index="0" unique_id=1165232289]
 material = SubResource("ShaderMaterial_damwd")
 
 [node name="Orthogonal" type="Sprite2D" parent="." index="2" unique_id=1448707358]
 unique_name_in_owner = true
-self_modulate = Color(1, 1, 1, 0.39215687)
+self_modulate = Color(1, 1, 1, 0.78431374)
 texture = ExtResource("3_damwd")
 region_enabled = true
 region_rect = Rect2(33, 33, 33, 33)
@@ -37,7 +37,7 @@ region_rect = Rect2(33, 33, 33, 33)
 [node name="Diagonal" type="Sprite2D" parent="." index="3" unique_id=1816045438]
 unique_name_in_owner = true
 visible = false
-self_modulate = Color(1, 1, 1, 0.39215687)
+self_modulate = Color(1, 1, 1, 0.78431374)
 texture = ExtResource("3_damwd")
 region_enabled = true
 region_rect = Rect2(66, 33, 33, 33)

@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://qancybqac86e"]
+
+[ext_resource type="Script" uid="uid://c076f3fffao01" path="res://game/grid/grid_item_effect_area.gd" id="1_gf2pl"]
+[ext_resource type="TileSet" uid="uid://dnqcmb0wlktd8" path="res://assets/tilesets/area_of_effect.tres" id="2_gf2pl"]
+
+[node name="GridItemEffectArea" type="Node2D" unique_id=1831638499]
+modulate = Color(1, 1, 1, 0.5882353)
+script = ExtResource("1_gf2pl")
+tile_set = ExtResource("2_gf2pl")
+effect_area = Array[Vector2i]([Vector2i(0, 0), Vector2i(1, 0), Vector2i(0, 1), Vector2i(-1, 0), Vector2i(0, -2), Vector2i(0, -1), Vector2i(-2, 0), Vector2i(0, 2), Vector2i(2, 0)])

@@ -75,6 +75,7 @@ metadata/_custom_type_script = "uid://c06xi37vnoblq"
 
 [node name="Hover" type="Sprite2D" parent="Container" unique_id=1393770898]
 unique_name_in_owner = true
+modulate = Color(1, 1, 1, 0)
 self_modulate = Color(1, 1, 1, 0.15686275)
 texture = ExtResource("1_ed8ef")
 centered = false

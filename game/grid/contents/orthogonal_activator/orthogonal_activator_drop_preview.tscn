@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://dlbv72oso5yyv"]
+
+[ext_resource type="PackedScene" uid="uid://qancybqac86e" path="res://game/grid/grid_item_effect_area.tscn" id="1_00qrd"]
+
+[node name="OrthogonalActivatorDropPreview" type="Node2D" unique_id=87239747]
+
+[node name="GridItemEffectArea" parent="." unique_id=1831638499 instance=ExtResource("1_00qrd")]
+effect_area = Array[Vector2i]([Vector2i(0, 0), Vector2i(1, 0), Vector2i(0, 0), Vector2i(0, -1), Vector2i(0, 0), Vector2i(-1, 0), Vector2i(0, 0), Vector2i(0, 1)])

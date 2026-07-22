@@ -13,15 +13,16 @@ var grid: Array[GridItem] = []
 var grid_map: Dictionary[Vector2i, GridItem] = {}
 var grid_item_size: Vector2 = Vector2.ZERO
 var center: Vector2 = Vector2.ZERO
+var center_vector2i: Vector2i = Vector2i.ZERO
+
+func get_mouse_position() -> Vector2:
+	return get_global_mouse_position()
 
 func get_grid_position() -> Vector2:
 	return -center * grid_item_size
 
-func get_grid_item_position(coordinates: Vector2i) -> Vector2:
+func coordinates_to_position(coordinates: Vector2i) -> Vector2:
 	return get_grid_position() + (Vector2(coordinates) * grid_item_size)
-
-func get_mouse_position() -> Vector2:
-	return get_global_mouse_position()
 
 func global_position_to_coordinates(input_global_position: Vector2) -> Vector2i:
 	return ((to_local(input_global_position) - get_grid_position()) / grid_item_size + Vector2.ONE * 0.5).clamp(Vector2.ZERO, Vector2(grid_size) - Vector2.ONE)
@@ -44,7 +45,9 @@ func clear() -> void:
 	grid_map.clear()
 
 func get_closest_item(coordinates: Vector2i) -> GridItem:
+	if grid_map.is_empty(): return null
 	if grid_map.has(coordinates): return grid_map.get(coordinates)
+
 	var max_steps: int = ceili(fade_radius)
 
 	for step in range(1, max_steps + 1):
@@ -54,18 +57,29 @@ func get_closest_item(coordinates: Vector2i) -> GridItem:
 		var x_right: int = coordinates.x + step
 
 		for x in range(x_left, x_right + 1):
-			if grid_map.has(Vector2i(x, y_up)):
-				return grid_map.get(Vector2i(x, y_up))
-			if grid_map.has(Vector2i(x, y_down)):
-				return grid_map.get(Vector2i(x, y_down))
+			var up: Vector2i = Vector2i(x, y_up)
+			if grid_map.has(up): return grid_map.get(up)
+			var down: Vector2i = Vector2i(x, y_down)
+			if grid_map.has(down): return grid_map.get(down)
 
 		for y in range(y_up + 1, y_down):
-			if grid_map.has(Vector2i(x_left, y)):
-				return grid_map.get(Vector2i(x_left, y))
-			if grid_map.has(Vector2i(x_right, y)):
-				return grid_map.get(Vector2i(x_right, y))
+			var left: Vector2i = Vector2i(x_left, y)
+			if grid_map.has(left): return grid_map.get(left)
+			var right: Vector2i = Vector2i(x_right, y)
+			if grid_map.has(right): return grid_map.get(right)
 
 	return null
+
+func get_focused_coordinates() -> Array[Vector2i]:
+	var focused_coordinates: Array[Vector2i] = [center_vector2i]
+
+	if not Engine.is_editor_hint():
+		if Game.is_grid_drop_valid and Game.grid_drop_coordinates:
+			focused_coordinates.append(Game.grid_drop_coordinates)
+		if Game.is_shop_drop_valid and Game.shop_drop_coordinates:
+			focused_coordinates.append(Game.shop_drop_coordinates)
+
+	return focused_coordinates
 
 enum NeighborFilter {ORTHOGONAL, DIAGONAL, OMNIDIRECTIONAL}
 
@@ -113,18 +127,31 @@ func get_neighbors(coordinates: Vector2i, filter: NeighborFilter = NeighborFilte
 
 	return neighbors
 
-func update_instance_transform(index: int, coordinates: Vector2) -> void:
-	var instance_transform: Transform2D = Transform2D(0.0, coordinates * grid_item_size)
+func update_instance_transform(index: int, coordinates: Vector2i) -> void:
+	var instance_transform: Transform2D = Transform2D(0.0, Vector2(coordinates) * grid_item_size)
 	multimesh.set_instance_transform_2d(index, instance_transform)
 
-func update_instance_opacity(index: int, coordinates: Vector2) -> void:
-	var closest_item: GridItem = get_closest_item(coordinates)
-	var closest_item_coordinates: Vector2 = closest_item.coordinates if closest_item else Vector2i(center)
-	var quad_opacity: float = 0.0
-		
-	if not closest_item or closest_item_coordinates != coordinates:
-		quad_opacity = clampf(1.0 - coordinates.distance_to(closest_item_coordinates) / fade_radius, 0.33, 1.0) * opacity
+var color_white_transparent: Color = Color(1.0, 1.0, 1.0, 0.0)
 
+func update_instance_opacity(index: int, coordinates: Vector2i, focused_coordinates: Array[Vector2i]) -> void:
+	if grid_map.has(coordinates):
+		multimesh.set_instance_color(index, color_white_transparent)
+		return
+
+	var closest_distance: float = INF
+
+	for active_coordinate in focused_coordinates:
+		var distance: float = coordinates.distance_squared_to(active_coordinate)
+		if distance < closest_distance: closest_distance = distance
+
+	var closest_item: GridItem = get_closest_item(coordinates)
+	
+	if closest_item:
+		var distance: float = closest_item.coordinates.distance_squared_to(coordinates)
+		if distance < closest_distance: closest_distance = distance
+
+	var closest_distance_squared: float = sqrt(closest_distance)
+	var quad_opacity: float = clampf(1.0 - closest_distance_squared / fade_radius, 0.33, 1.0) * opacity
 	multimesh.set_instance_color(index, Color(1.0, 1.0, 1.0, quad_opacity))
 
 var is_rendering: bool = false
@@ -137,10 +164,12 @@ func process_render() -> void:
 	var start: int = render_iteration * cells_per_frame
 	var end: int = mini(start + cells_per_frame, total_cells)
 
+	var focused_coordinates: Array[Vector2i] = get_focused_coordinates()
+
 	for index in range(start, end):
-		var coordinates: Vector2 = Vector2(index % grid_size.x, index / grid_size.x)
+		var coordinates: Vector2i = Vector2i(index % grid_size.x, index / grid_size.x)
 		update_instance_transform(index, coordinates)
-		update_instance_opacity(index, coordinates)
+		update_instance_opacity(index, coordinates, focused_coordinates)
 
 	if end >= total_cells:
 		is_rendering = false
@@ -151,22 +180,30 @@ func queue_render() -> void:
 	is_rendering = true
 
 func render() -> void:
+	var focused_coordinates: Array[Vector2i] = get_focused_coordinates()
 	var index: int = 0
 
 	for y in grid_size.y: for x in grid_size.x:
-		var coordinates: Vector2 = Vector2(x, y)
+		var coordinates: Vector2i = Vector2i(x, y)
 		update_instance_transform(index, coordinates)
-		update_instance_opacity(index, coordinates)
+		update_instance_opacity(index, coordinates, focused_coordinates)
 		index += 1
 	
-func render_around(coordinates: Vector2i) -> void:
-	var radius: int = ceili(fade_radius)
+var previous_render_around_coordinates: Vector2i
+func render_around(coordinates: Vector2i, force: bool = false) -> void:
+	if not force and previous_render_around_coordinates == coordinates: return
+	previous_render_around_coordinates = coordinates
 
-	for y in range(coordinates.y - radius, coordinates.y + radius + 1):
-		for x in range(coordinates.x - radius, coordinates.x + radius + 1):
-			if x < 0 or x >= grid_size.x or y < 0 or y >= grid_size.y: continue
-			var index: int = y * grid_size.x + x
-			update_instance_opacity(index, Vector2(x, y))
+	var radius: int = ceili(fade_radius)
+	var focused_coordinates: Array[Vector2i] = get_focused_coordinates()
+	var start_x: int = maxi(coordinates.x - radius, 0)
+	var end_x: int = mini(coordinates.x + radius, grid_size.x - 1)
+	var start_y: int = maxi(coordinates.y - radius, 0)
+	var end_y: int = mini(coordinates.y + radius, grid_size.y - 1)
+
+	for y in range(start_y, end_y + 1): for x in range(start_x, end_x + 1):
+		var index: int = y * grid_size.x + x
+		update_instance_opacity(index, Vector2i(x, y), focused_coordinates)
 		
 func build() -> void:
 	if multimesh_instance: return
@@ -185,8 +222,6 @@ func build() -> void:
 
 	var mesh: QuadMesh = QuadMesh.new()
 	mesh.size = grid_item_size
-
-	if multimesh: multimesh.queue_free()
 
 	multimesh = MultiMesh.new()
 	multimesh.transform_format = MultiMesh.TRANSFORM_2D
@@ -209,7 +244,7 @@ func add_item(item: GridItem, coordinates: Vector2i) -> void:
 	grid_map.set(coordinates, item)
 
 	add_child(item)
-	item.position = get_grid_item_position(coordinates)
+	item.position = coordinates_to_position(coordinates)
 
 	render_around(coordinates)
 
@@ -222,24 +257,43 @@ func move_item(item: GridItem, coordinates: Vector2i) -> bool:
 	grid_map.erase(old_coordinates)
 	item.coordinates = coordinates
 	grid_map.set(coordinates, item)
-	item.animate_position(get_grid_item_position(coordinates), 0.1)
+	item.animate_position(coordinates_to_position(coordinates), 0.1)
 
 	if conflicting_item:
 		conflicting_item.coordinates = old_coordinates
 		grid_map.set(old_coordinates, conflicting_item)
-		conflicting_item.animate_position(get_grid_item_position(old_coordinates))
+		conflicting_item.animate_position(coordinates_to_position(old_coordinates))
 
 	render_around(coordinates)
 	render_around(old_coordinates)
 
 	return true
 
+func handle_grid_drop_hover(_item: GridItem) -> void:
+	render_around(Game.previous_grid_drop_coordinates)
+	render_around(Game.grid_drop_coordinates)
+
+func handle_grid_drop_hover_end() -> void:
+	render_around(Game.previous_grid_drop_coordinates, true)
+
+func handle_shop_drop_hover(_item: ShopItemResource) -> void:
+	render_around(Game.previous_shop_drop_coordinates)
+	render_around(Game.shop_drop_coordinates)
+
+func handle_shop_drop_hover_end() -> void:
+	render_around(Game.previous_shop_drop_coordinates, true)
+
 func _ready() -> void:
 	grid_item_size = texture.region.size
 	center = (Vector2(grid_size) - Vector2.ONE) * 0.5
+	center_vector2i = Vector2i(center)
 
 	if not Engine.is_editor_hint():
 		Game.grid = self
+		Game.on_grid_drop_hover.connect(handle_grid_drop_hover)
+		Game.on_grid_drop_hover_end.connect(handle_grid_drop_hover_end)
+		Game.on_shop_drop_hover.connect(handle_shop_drop_hover)
+		Game.on_shop_drop_hover_end.connect(handle_shop_drop_hover_end.call_deferred)
 
 	var viewport: Viewport = get_viewport()
 	var camera: Camera2D = viewport.get_camera_2d()
