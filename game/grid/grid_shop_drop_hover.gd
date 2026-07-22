@@ -23,6 +23,7 @@ func handle_shop_drop_hover(item: ShopItemResource) -> void:
 		add_child(sprite)
 
 	if not Game.is_shop_drop_valid or Game.shop_drop_coordinates == null or typeof(Game.shop_drop_coordinates) != TYPE_VECTOR2I:
+		clear_preview_scene()
 		handle_invalid_shop_drop_hover()
 		return
 
