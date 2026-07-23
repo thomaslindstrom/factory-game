@@ -138,13 +138,15 @@ positional_shadow_atlas_quad_0 = 0
 positional_shadow_atlas_quad_1 = 0
 positional_shadow_atlas_quad_2 = 0
 positional_shadow_atlas_quad_3 = 0
-size = Vector2i(1280, 720)
+size = Vector2i(1920, 1080)
 render_target_update_mode = 4
 
 [node name="Camera2D" type="Camera2D" parent="GameViewportContainer/GameViewport" unique_id=474031424]
 position_smoothing_enabled = true
 script = ExtResource("2_lquwl")
 pan_speed = 500.0
+zoom_modifier_multiplier = null
+maximum_zoom = 6.0
 
 [node name="Grid" type="Node2D" parent="GameViewportContainer/GameViewport" unique_id=810262040]
 position = Vector2(640, 360)

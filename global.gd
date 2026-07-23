@@ -1,7 +1,7 @@
 @tool
 extends Node
 
-var ui_scale: float = 3.0
+var ui_scale: float = 4.0
 var game_scale: float = 1.0
 
 ## Returns a banded smoothstep value between `start` and `end`, where values less than `start` or greater than `end` is 0.0, and 1.0 if the value is between `band_start` and `band_end`. For example: `smoothstep_band(0.2, 0.4, 0.6, 0.8, 0.9) = 0.0`, `smoothstep_band(0.2, 0.4, 0.6, 0.8, 0.5) = 1.0`
