@@ -3,7 +3,6 @@
 [ext_resource type="Script" uid="uid://d1bgwp6f35d2y" path="res://main.gd" id="1_1bvp3"]
 [ext_resource type="Texture2D" uid="uid://brkg3k7j1w745" path="res://sprites.png" id="1_ig7tw"]
 [ext_resource type="Script" uid="uid://b4l46f5su5i4o" path="res://game_viewport_camera.gd" id="2_lquwl"]
-[ext_resource type="PackedScene" uid="uid://djtwb08a2jk2h" path="res://modules/font/ui_text.tscn" id="3_h2yge"]
 [ext_resource type="Script" uid="uid://b4cf5kebl764s" path="res://game/grid/grid.gd" id="4_1bvp3"]
 [ext_resource type="Script" uid="uid://eq2yr8ietoxx" path="res://ui_viewport_camera.gd" id="5_7mycd"]
 [ext_resource type="Script" uid="uid://ci18myf5wo6k" path="res://game/grid/grid_debugger.gd" id="5_272bh"]
@@ -12,13 +11,14 @@
 [ext_resource type="Script" uid="uid://boovmr37gcaus" path="res://game/grid/grid_item_resource.gd" id="6_kek77"]
 [ext_resource type="Resource" uid="uid://cb05nvk3m0jt0" path="res://game/grid/contents/coin/coin.tres" id="7_4c57u"]
 [ext_resource type="Resource" uid="uid://tsp3qmtuv66i" path="res://game/grid/contents/orthogonal_activator/orthogonal_activator.tres" id="9_dg77c"]
-[ext_resource type="Script" uid="uid://d0i5tuphwd1tr" path="res://ui/score.gd" id="10_4c57u"]
 [ext_resource type="Resource" uid="uid://qiinttxels8s" path="res://game/grid/contents/diagonal_activator/diagonal_activator.tres" id="10_ycdy4"]
 [ext_resource type="Resource" uid="uid://sbritqxnu8kw" path="res://game/grid/contents/omnidirectional_activator/omnidirectional_activator.tres" id="11_w48qg"]
 [ext_resource type="Script" uid="uid://b8iwfctl3sl2" path="res://game/grid/grid_drop_hover.gd" id="12_1u8w0"]
 [ext_resource type="Script" uid="uid://b0syndc0c1c63" path="res://game/grid/grid_shop_drop_hover.gd" id="12_ryguw"]
 [ext_resource type="Script" uid="uid://c06xi37vnoblq" path="res://modules/font/ui_text.gd" id="15_vivmo"]
+[ext_resource type="PackedScene" uid="uid://3ulshauxiy3s" path="res://ui/ui_metric_coins.tscn" id="16_1u8w0"]
 [ext_resource type="PackedScene" uid="uid://djugnie0engre" path="res://ui/shop/ui_shop_item.tscn" id="16_2cqfq"]
+[ext_resource type="PackedScene" uid="uid://vn3x1pp8nuwn" path="res://ui/ui_metric_food.tscn" id="17_0odxb"]
 [ext_resource type="Script" uid="uid://ck1pemibdoqb" path="res://ui/shop/shop_container_box.gd" id="17_d13ii"]
 [ext_resource type="Resource" uid="uid://c82or7rr5rxrk" path="res://ui/shop/items/coin.tres" id="17_yaehf"]
 [ext_resource type="Resource" uid="uid://bx1vunx03dh8o" path="res://ui/shop/items/orthogonal_activator.tres" id="18_82xsv"]
@@ -120,7 +120,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.018, 0.0224, 0.04, 1)
+color = Color(0.02218447, 0.02698222, 0.04446049, 1)
 
 [node name="GameViewportContainer" type="SubViewportContainer" parent="." unique_id=1987820623]
 unique_name_in_owner = true
@@ -145,11 +145,10 @@ render_target_update_mode = 4
 position_smoothing_enabled = true
 script = ExtResource("2_lquwl")
 pan_speed = 500.0
-zoom_modifier_multiplier = null
 maximum_zoom = 6.0
 
 [node name="Grid" type="Node2D" parent="GameViewportContainer/GameViewport" unique_id=810262040]
-position = Vector2(640, 360)
+position = Vector2(960, 540)
 script = ExtResource("4_1bvp3")
 grid_size = Vector2i(129, 129)
 texture = SubResource("AtlasTexture_1bvp3")
@@ -198,7 +197,7 @@ positional_shadow_atlas_quad_0 = 0
 positional_shadow_atlas_quad_1 = 0
 positional_shadow_atlas_quad_2 = 0
 positional_shadow_atlas_quad_3 = 0
-size = Vector2i(1280, 720)
+size = Vector2i(1920, 1080)
 render_target_update_mode = 4
 
 [node name="Camera2D" type="Camera2D" parent="UiViewportContainer/UiViewport" unique_id=1440604307]
@@ -206,17 +205,38 @@ anchor_mode = 0
 script = ExtResource("5_7mycd")
 camera_type = 1
 
-[node name="MarginContainer" type="MarginContainer" parent="UiViewportContainer/UiViewport" unique_id=523376642]
-offset_right = 10.0
-offset_bottom = 13.0
-mouse_filter = 2
+[node name="MetricContainer" type="MarginContainer" parent="UiViewportContainer/UiViewport" unique_id=1015188420]
+offset_right = 28.0
+offset_bottom = 21.0
+theme_override_constants/margin_left = 6
+theme_override_constants/margin_top = 6
+
+[node name="NinePatchRect" type="NinePatchRect" parent="UiViewportContainer/UiViewport/MetricContainer" unique_id=45641466]
+custom_minimum_size = Vector2(22, 15)
+layout_mode = 2
+texture = ExtResource("1_ig7tw")
+region_rect = Rect2(6, 340, 21, 15)
+patch_margin_left = 5
+patch_margin_top = 5
+patch_margin_right = 5
+patch_margin_bottom = 5
+
+[node name="MarginContainer" type="MarginContainer" parent="UiViewportContainer/UiViewport/MetricContainer" unique_id=1803674618]
+layout_mode = 2
 theme_override_constants/margin_left = 6
 theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 6
+theme_override_constants/margin_bottom = 4
 
-[node name="UiText" parent="UiViewportContainer/UiViewport/MarginContainer" unique_id=1736015980 instance=ExtResource("3_h2yge")]
+[node name="HBoxContainer" type="HBoxContainer" parent="UiViewportContainer/UiViewport/MetricContainer/MarginContainer" unique_id=1591833050]
 layout_mode = 2
-mouse_filter = 2
-script = ExtResource("10_4c57u")
+theme_override_constants/separation = 6
+
+[node name="UiMetricCoins" parent="UiViewportContainer/UiViewport/MetricContainer/MarginContainer/HBoxContainer" unique_id=167797989 instance=ExtResource("16_1u8w0")]
+layout_mode = 2
+
+[node name="UiMetricFood" parent="UiViewportContainer/UiViewport/MetricContainer/MarginContainer/HBoxContainer" unique_id=1667483215 instance=ExtResource("17_0odxb")]
+layout_mode = 2
 
 [node name="ShopContainer" type="MarginContainer" parent="UiViewportContainer/UiViewport" unique_id=2068535603]
 anchors_preset = 11

@@ -78,6 +78,7 @@ script = ExtResource("1_v2wdc")
 
 [node name="Frame" type="Sprite2D" parent="." unique_id=1165232289]
 unique_name_in_owner = true
+visible = false
 material = SubResource("ShaderMaterial_kn7j0")
 texture = ExtResource("2_i7w1r")
 region_enabled = true

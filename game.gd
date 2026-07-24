@@ -2,11 +2,17 @@ extends Node
 
 var grid: Grid
 
-signal on_score_changed(score: int)
-var score: int = 10:
+signal on_coins_changed(coins: int)
+var coins: int = 1:
 	set(value):
-		score = value
-		on_score_changed.emit(value)
+		coins = value
+		on_coins_changed.emit(value)
+
+signal on_food_changed(food: int)
+var food: int = 10:
+	set(value):
+		food = value
+		on_food_changed.emit(value)
 
 # Grid
 var is_grid_drop_valid: bool = true
@@ -49,12 +55,12 @@ func try_shop_drop_purchase(item: ShopItemResource) -> bool:
 
 	var coordinates: Vector2i = shop_drop_coordinates
 	if grid.grid_map.has(coordinates): return false
-	if score < item.price: return false
+	if coins < item.price: return false
 
 	var grid_item: GridItem = GridItem.new(item.grid_item.create())
 	grid.add_item(grid_item, coordinates)
 
-	score -= item.price
+	coins -= item.price
 	return true
 	
 # Lifecycle

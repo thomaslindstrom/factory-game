@@ -1,0 +1,16 @@
+[gd_scene format=3 uid="uid://3ulshauxiy3s"]
+
+[ext_resource type="PackedScene" uid="uid://bsbb4x4qoonee" path="res://ui/ui_metric.tscn" id="1_7pmyk"]
+[ext_resource type="Script" uid="uid://t4n6gf814ps8" path="res://ui/ui_metric_coins.gd" id="2_dx5uy"]
+[ext_resource type="Texture2D" uid="uid://brkg3k7j1w745" path="res://sprites.png" id="3_mr3ua"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mr3ua"]
+atlas = ExtResource("3_mr3ua")
+region = Rect2(14, 311, 5, 7)
+
+[node name="UiMetricCoins" unique_id=167797989 instance=ExtResource("1_7pmyk")]
+script = ExtResource("2_dx5uy")
+texture = SubResource("AtlasTexture_mr3ua")
+
+[node name="Sprite2D" parent="HBoxContainer/Icon" parent_id_path=PackedInt32Array(1597484767) index="0" unique_id=1800256489]
+texture = SubResource("AtlasTexture_mr3ua")

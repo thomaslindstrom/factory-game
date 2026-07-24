@@ -1,0 +1,20 @@
+[gd_scene format=3 uid="uid://vn3x1pp8nuwn"]
+
+[ext_resource type="PackedScene" uid="uid://bsbb4x4qoonee" path="res://ui/ui_metric.tscn" id="1_jaeux"]
+[ext_resource type="Texture2D" uid="uid://brkg3k7j1w745" path="res://sprites.png" id="2_loq5q"]
+[ext_resource type="Script" uid="uid://c3fuqvttoqnbp" path="res://ui/ui_metric_food.gd" id="2_vlnla"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mr3ua"]
+atlas = ExtResource("2_loq5q")
+region = Rect2(47, 311, 5, 7)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_loq5q"]
+atlas = ExtResource("2_loq5q")
+region = Rect2(47, 311, 5, 7)
+
+[node name="UiMetricFood" unique_id=167797989 instance=ExtResource("1_jaeux")]
+script = ExtResource("2_vlnla")
+texture = SubResource("AtlasTexture_mr3ua")
+
+[node name="Sprite2D" parent="HBoxContainer/Icon" parent_id_path=PackedInt32Array(1597484767) index="0" unique_id=1800256489]
+texture = SubResource("AtlasTexture_loq5q")

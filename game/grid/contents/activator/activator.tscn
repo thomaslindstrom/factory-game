@@ -21,6 +21,7 @@ shader_parameter/color = Color(0.1264753, 0.12648061, 0.17168495, 1)
 [node name="Activator" unique_id=317894498 instance=ExtResource("1_u5fkd")]
 script = ExtResource("2_rmvst")
 neighbor_filter = 0
+cooldown_duration = null
 use_frame_color = true
 frame_color = Color(0.1264753, 0.12648061, 0.17168495, 1)
 
@@ -76,6 +77,7 @@ script = ExtResource("7_uclwx")
 metadata/_custom_type_script = "uid://ofbexg166pcj"
 
 [node name="Active" type="Node" parent="StateMachine/Active" index="0" unique_id=1487444975 node_paths=PackedStringArray("cooldown", "animation_player")]
+unique_name_in_owner = true
 script = ExtResource("8_vx8pe")
 cooldown = NodePath("../../../Cooldown")
 animation_player = NodePath("../../../AnimationPlayer")

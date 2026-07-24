@@ -4,11 +4,15 @@
 
 [node name="Activator" unique_id=317894498 instance=ExtResource("1_xr356")]
 neighbor_filter = 2
+cooldown_duration = 1.0
 use_frame_color = false
 frame_color = Color(1, 1, 1, 1)
 
-[node name="Hover" parent="." index="1" unique_id=387404026]
-modulate = Color(1, 1, 1, 0)
+[node name="Frame" parent="." index="0" unique_id=1165232289]
+visible = true
 
-[node name="Cooldown" parent="." index="7" unique_id=895928947]
+[node name="Diagonal" parent="." index="3" unique_id=1816045438]
+visible = true
+
+[node name="Cooldown" parent="." index="6" unique_id=895928947]
 visible = false

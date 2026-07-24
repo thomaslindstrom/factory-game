@@ -4,3 +4,10 @@
 
 [node name="Activator" unique_id=317894498 instance=ExtResource("1_vxuha")]
 neighbor_filter = 1
+cooldown_duration = 1.5
+
+[node name="Orthogonal" parent="." index="2" unique_id=1448707358]
+visible = false
+
+[node name="Diagonal" parent="." index="3" unique_id=1816045438]
+visible = true

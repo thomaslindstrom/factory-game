@@ -11,12 +11,12 @@ class_name UiShopItem
 
 var drag: Draggable = Draggable.new(self )
 
-func can_afford_shop_item(score: int = Game.score) -> bool:
-	return score >= shop_item.price
+func can_afford_shop_item(coins: int = Game.coins) -> bool:
+	return coins >= shop_item.price
 
-func handle_score_changed(new_score: int, animation_duration: float = 0.2) -> void:
+func handle_coins_changed(new_coins: int, animation_duration: float = 0.2) -> void:
 	var tween: Tween = create_tween()
-	var opacity: float = 1.0 if can_afford_shop_item(new_score) else 0.25
+	var opacity: float = 1.0 if can_afford_shop_item(new_coins) else 0.25
 	tween.tween_property(container, "modulate:a", opacity, animation_duration)
 
 func handle_mouse_entered() -> void:
@@ -79,8 +79,8 @@ func _ready() -> void:
 	drag.return_to_original_position = handle_drag_return
 
 	if not Engine.is_editor_hint():
-		Game.on_score_changed.connect(handle_score_changed)
-		handle_score_changed(Game.score, 0.0)
+		Game.on_coins_changed.connect(handle_coins_changed)
+		handle_coins_changed(Game.coins, 0.0)
 
 	hover.modulate.a = 0.0
 	mouse_entered.connect(handle_mouse_entered)

@@ -67,6 +67,8 @@ func _physics_process(delta: float) -> void:
 	if direction != Vector2.ZERO:
 		position += direction * pan_speed * modifier * delta / display_zoom
 
+	if position == position.round(): position += Vector2(0.1, 0.1)
+
 	if Input.is_action_just_pressed("tertiary"):
 		reset_position()
 

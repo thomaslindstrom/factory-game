@@ -43,7 +43,10 @@ func handle_drop_hover(item: GridItem) -> void:
 	var coordinates: Vector2i = Game.grid_drop_coordinates
 	
 	if grid.grid_map.has(coordinates):
-		if item.coordinates == coordinates: clear_preview_scene()
+		if item.coordinates == coordinates: 
+			clear_preview_scene()
+			old_sprite.visible = false
+		
 		new_sprite.visible = false
 		return
 

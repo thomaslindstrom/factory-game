@@ -1,0 +1,32 @@
+[gd_scene format=3 uid="uid://bsbb4x4qoonee"]
+
+[ext_resource type="PackedScene" uid="uid://djtwb08a2jk2h" path="res://modules/font/ui_text.tscn" id="1_5thqm"]
+[ext_resource type="Script" uid="uid://2h4l1qlkkjqs" path="res://ui/ui_metric.gd" id="1_wnewm"]
+
+[node name="UiMetric" type="MarginContainer" unique_id=167797989]
+offset_right = 8.0
+offset_bottom = 9.0
+mouse_filter = 2
+script = ExtResource("1_wnewm")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=937396679]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+theme_override_constants/separation = 4
+alignment = 1
+
+[node name="Icon" type="MarginContainer" parent="HBoxContainer" unique_id=1597484767]
+custom_minimum_size = Vector2(5, 7)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="Sprite2D" type="Sprite2D" parent="HBoxContainer/Icon" unique_id=1800256489]
+unique_name_in_owner = true
+centered = false
+
+[node name="UiText" parent="HBoxContainer" unique_id=1736015980 instance=ExtResource("1_5thqm")]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 2
